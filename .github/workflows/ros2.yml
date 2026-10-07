@@ -1,0 +1,27 @@
+name: ROS 2 Humble validation
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  course-demo:
+    runs-on: ubuntu-22.04
+    container: ros:humble-ros-base
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-colcon-common-extensions python3-pytest ros-humble-rviz2 ros-humble-robot-state-publisher
+      - name: Build and unit tests
+        shell: bash
+        run: bash scripts/build.sh
+      - name: ROS integration scenarios
+        shell: bash
+        run: bash scripts/integration.sh
+      - name: Preserve logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-ros-evidence
+          path: results/

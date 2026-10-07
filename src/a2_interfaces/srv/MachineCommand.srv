@@ -1,0 +1,5 @@
+# START, ABORT, RESET, BUSY_ON, BUSY_OFF, FAULT_ON, FAULT_OFF
+string command
+---
+bool success
+string message

@@ -1,0 +1,9 @@
+string run_id
+string phase
+string detail
+bool active
+bool success
+uint32 completed
+float64 elapsed
+float32 progress
+string error

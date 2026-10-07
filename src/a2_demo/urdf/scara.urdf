@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot name="a2_scara">
+  <material name="metal"><color rgba="0.76 0.82 0.88 1"/></material>
+  <material name="teal"><color rgba="0.03 0.62 0.70 1"/></material>
+  <material name="dark"><color rgba="0.12 0.17 0.23 1"/></material>
+  <material name="amber"><color rgba="1 0.60 0.10 1"/></material>
+  <link name="world"/>
+  <link name="base_link">
+    <visual><origin xyz="0 0 0.035"/><geometry><cylinder radius="0.10" length="0.07"/></geometry><material name="dark"/></visual>
+    <visual><origin xyz="0 0 0.265"/><geometry><cylinder radius="0.060" length="0.46"/></geometry><material name="metal"/></visual>
+    <visual><origin xyz="0 0 0.49"/><geometry><cylinder radius="0.082" length="0.06"/></geometry><material name="teal"/></visual>
+  </link>
+  <joint name="world_to_base" type="fixed"><parent link="world"/><child link="base_link"/><origin xyz="0 0 0.30"/></joint>
+  <link name="upper_arm">
+    <visual><origin xyz="0.18 0 0.025"/><geometry><box size="0.36 0.085 0.06"/></geometry><material name="metal"/></visual>
+    <visual><origin xyz="0 0 0.025"/><geometry><cylinder radius="0.067" length="0.065"/></geometry><material name="teal"/></visual>
+  </link>
+  <joint name="shoulder_joint" type="revolute"><parent link="base_link"/><child link="upper_arm"/><origin xyz="0 0 0.50"/><axis xyz="0 0 1"/><limit lower="-3.1415926536" upper="3.1415926536" effort="50" velocity="2"/></joint>
+  <link name="forearm">
+    <visual><origin xyz="0.15 0 0.015"/><geometry><box size="0.30 0.067 0.055"/></geometry><material name="teal"/></visual>
+    <visual><origin xyz="0 0 0.015"/><geometry><cylinder radius="0.05" length="0.06"/></geometry><material name="metal"/></visual>
+    <visual><origin xyz="0.30 0 -0.03"/><geometry><cylinder radius="0.042" length="0.14"/></geometry><material name="metal"/></visual>
+  </link>
+  <joint name="elbow_joint" type="revolute"><parent link="upper_arm"/><child link="forearm"/><origin xyz="0.36 0 0"/><axis xyz="0 0 1"/><limit lower="0" upper="2.8" effort="50" velocity="2"/></joint>
+  <link name="slide_link">
+    <visual><origin xyz="0 0 -0.045"/><geometry><cylinder radius="0.022" length="0.09"/></geometry><material name="dark"/></visual>
+  </link>
+  <joint name="slide_joint" type="prismatic"><parent link="forearm"/><child link="slide_link"/><origin xyz="0.30 0 0"/><axis xyz="0 0 -1"/><limit lower="0" upper="0.40" effort="50" velocity="0.5"/></joint>
+  <link name="tool0">
+    <visual><origin xyz="0 0 0.018"/><geometry><box size="0.07 0.10 0.025"/></geometry><material name="metal"/></visual>
+    <visual><origin xyz="0 0 0.045"/><geometry><cylinder radius="0.029" length="0.030"/></geometry><material name="amber"/></visual>
+  </link>
+  <joint name="wrist_joint" type="revolute"><parent link="slide_link"/><child link="tool0"/><origin xyz="0 0 -0.10"/><axis xyz="0 0 1"/><limit lower="-3.1415926536" upper="3.1415926536" effort="10" velocity="3"/></joint>
+  <link name="left_finger"><visual><origin xyz="0 0 -0.025"/><geometry><box size="0.008 0.055 0.055"/></geometry><material name="dark"/></visual></link>
+  <joint name="left_finger_joint" type="prismatic"><parent link="tool0"/><child link="left_finger"/><axis xyz="1 0 0"/><limit lower="0.018" upper="0.045" effort="10" velocity="0.1"/></joint>
+  <link name="right_finger"><visual><origin xyz="0 0 -0.025"/><geometry><box size="0.008 0.055 0.055"/></geometry><material name="dark"/></visual></link>
+  <joint name="right_finger_joint" type="prismatic"><parent link="tool0"/><child link="right_finger"/><axis xyz="-1 0 0"/><limit lower="0.018" upper="0.045" effort="10" velocity="0.1"/></joint>
+</robot>

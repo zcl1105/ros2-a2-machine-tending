@@ -1,0 +1,10 @@
+# TCP target in the world frame. gripper: -1 unchanged, 0 open, 1 closed.
+geometry_msgs/Point target
+int8 gripper
+float64 duration
+---
+bool success
+string message
+---
+float32 progress
+geometry_msgs/Point tcp
