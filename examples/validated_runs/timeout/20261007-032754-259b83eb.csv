@@ -1,0 +1,14 @@
+elapsed_s,phase,event,piece,processed,detail
+0.0,WAIT_READY,ENTER,TRAY,False,Waiting for the machining station
+0.048,APPROACH_TRAY,ENTER,TRAY,False,Move above the raw material tray
+0.848,PICK_DESCEND,ENTER,TRAY,False,Lower the gripper to the workpiece
+1.648,PICK_GRIP,ENTER,TRAY,False,Close gripper and attach raw workpiece
+2.248,PICK_LIFT,ENTER,GRIPPER,False,Lift the workpiece to the safe transfer height
+3.048,TRANSFER_LOAD,ENTER,GRIPPER,False,Transfer the workpiece above the machine
+3.848,LOAD_DESCEND,ENTER,GRIPPER,False,Lower the workpiece into the fixture
+4.698,LOAD_RELEASE,ENTER,GRIPPER,False,Open gripper and place the workpiece
+5.298,LOAD_RETREAT,ENTER,MACHINE,False,Lift clear of the machining station
+6.098,CLEAR_MACHINE,ENTER,MACHINE,False,Park outside the machining area
+6.898,START_MACHINE,ENTER,MACHINE,False,Request machining after the arm retreats
+6.998,WAIT_PROCESS,ENTER,MACHINE,False,Wait for the machining completion signal
+10.048,FAILED,TERMINAL,MACHINE,False,WAIT_PROCESS timeout after 3.0s

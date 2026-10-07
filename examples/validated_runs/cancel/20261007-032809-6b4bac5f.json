@@ -1,0 +1,11 @@
+{
+  "run_id": "20261007-032809-6b4bac5f",
+  "phase": "CANCELED",
+  "success": false,
+  "completed": 0,
+  "elapsed_s": 3.102,
+  "workpiece_location": "GRIPPER",
+  "processed": false,
+  "error": "Canceled by operator",
+  "backend": "SCARA joint interpolation; RViz kinematic simulation"
+}

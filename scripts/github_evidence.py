@@ -5,15 +5,24 @@ import json
 from pathlib import Path
 import sys
 import urllib.request
+import urllib.parse
 import zipfile
 from github_repo import api, credential
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
+class SafeRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, message, headers, new_url):
+        redirected = super().redirect_request(request, fp, code, message, headers, new_url)
+        if urllib.parse.urlsplit(request.full_url).netloc != urllib.parse.urlsplit(new_url).netloc:
+            redirected.remove_header('Authorization')
+        return redirected
+
+
 def download(token, url):
     request = urllib.request.Request(url, headers={'Authorization': 'Bearer '+token, 'User-Agent': 'a2-course-project'})
-    with urllib.request.urlopen(request, timeout=90) as response:
+    with urllib.request.build_opener(SafeRedirect()).open(request, timeout=90) as response:
         return response.read()
 
 

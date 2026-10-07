@@ -29,7 +29,7 @@ Visualization Manager:
     - Class: rviz_default_plugins/MarkerArray
       Name: A2 Scene and HUD
       Enabled: true
-      Marker Topic:
+      Topic:
         Value: /a2/scene
         Durability Policy: Volatile
         Reliability Policy: Reliable
@@ -45,12 +45,14 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 2.35
-      Pitch: 0.52
-      Yaw: 0.84
+      Distance: 1.95
+      Pitch: 0.45
+      Yaw: -0.85
       Focal Point: {X: 0.25, Y: -0.04, Z: 0.66}
       Near Clip Distance: 0.01
       Name: Presentation
 Window Geometry:
+  Hide Left Dock: true
+  Hide Right Dock: true
   Width: 1440
   Height: 900

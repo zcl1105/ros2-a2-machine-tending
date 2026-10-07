@@ -1,0 +1,23 @@
+elapsed_s,phase,event,piece,processed,detail
+0.0,WAIT_READY,ENTER,TRAY,False,Waiting for the machining station
+0.049,APPROACH_TRAY,ENTER,TRAY,False,Move above the raw material tray
+0.849,PICK_DESCEND,ENTER,TRAY,False,Lower the gripper to the workpiece
+1.649,PICK_GRIP,ENTER,TRAY,False,Close gripper and attach raw workpiece
+2.249,PICK_LIFT,ENTER,GRIPPER,False,Lift the workpiece to the safe transfer height
+3.049,TRANSFER_LOAD,ENTER,GRIPPER,False,Transfer the workpiece above the machine
+3.849,LOAD_DESCEND,ENTER,GRIPPER,False,Lower the workpiece into the fixture
+4.649,LOAD_RELEASE,ENTER,GRIPPER,False,Open gripper and place the workpiece
+5.249,LOAD_RETREAT,ENTER,MACHINE,False,Lift clear of the machining station
+6.049,CLEAR_MACHINE,ENTER,MACHINE,False,Park outside the machining area
+6.849,START_MACHINE,ENTER,MACHINE,False,Request machining after the arm retreats
+6.948,WAIT_PROCESS,ENTER,MACHINE,False,Wait for the machining completion signal
+8.449,APPROACH_MACHINE,ENTER,MACHINE,True,Move above the finished workpiece
+9.249,UNLOAD_DESCEND,ENTER,MACHINE,True,Lower gripper to the finished workpiece
+10.049,UNLOAD_GRIP,ENTER,MACHINE,True,Grip and attach the finished workpiece
+10.648,UNLOAD_LIFT,ENTER,GRIPPER,True,Lift the finished workpiece
+11.449,TRANSFER_RETURN,ENTER,GRIPPER,True,Return the finished workpiece above the tray
+12.249,RETURN_DESCEND,ENTER,GRIPPER,True,Lower the finished workpiece into its tray slot
+13.049,RETURN_RELEASE,ENTER,GRIPPER,True,Release the finished workpiece
+13.649,RETURN_LIFT,ENTER,TRAY,True,Lift clear of the tray
+14.449,RETURN_HOME,ENTER,TRAY,True,Return home with gripper open
+15.249,COMPLETE,TERMINAL,TRAY,True,Finished workpiece verified in tray; arm returned home

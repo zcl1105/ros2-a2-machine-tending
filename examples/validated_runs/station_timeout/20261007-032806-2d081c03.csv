@@ -1,0 +1,3 @@
+elapsed_s,phase,event,piece,processed,detail
+0.0,WAIT_READY,ENTER,TRAY,False,Waiting for the machining station
+2.048,FAILED,TERMINAL,TRAY,False,WAIT_READY timeout after 2.0s

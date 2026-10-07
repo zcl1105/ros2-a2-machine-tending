@@ -37,6 +37,8 @@ def record(scenario, parameters):
         recorder = None
         try:
             probe.until(lambda: probe.status and probe.arm and probe.machine and probe.piece, 20)
+            probe.until(lambda: any(info.node_name in ('rviz', 'rviz2')
+                                    for info in probe.get_subscriptions_info_by_topic('/a2/scene')), 20)
             hold(probe, 6)
             if launch.poll() is not None:
                 raise RuntimeError('ROS launch stopped unexpectedly')

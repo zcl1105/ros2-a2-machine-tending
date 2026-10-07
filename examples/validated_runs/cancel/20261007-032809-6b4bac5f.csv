@@ -1,0 +1,8 @@
+elapsed_s,phase,event,piece,processed,detail
+0.0,WAIT_READY,ENTER,TRAY,False,Waiting for the machining station
+0.048,APPROACH_TRAY,ENTER,TRAY,False,Move above the raw material tray
+0.898,PICK_DESCEND,ENTER,TRAY,False,Lower the gripper to the workpiece
+1.698,PICK_GRIP,ENTER,TRAY,False,Close gripper and attach raw workpiece
+2.298,PICK_LIFT,ENTER,GRIPPER,False,Lift the workpiece to the safe transfer height
+3.098,TRANSFER_LOAD,ENTER,GRIPPER,False,Transfer the workpiece above the machine
+3.102,CANCELED,TERMINAL,GRIPPER,False,Canceled by operator
