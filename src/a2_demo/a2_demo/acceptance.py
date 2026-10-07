@@ -21,7 +21,7 @@ class Probe(Node):
         self.create_subscription(ArmState, '/a2/arm/state', lambda msg: setattr(self, 'arm', msg), 10)
         self.create_subscription(MachineState, '/a2/machine/state', lambda msg: setattr(self, 'machine', msg), 10)
         self.create_subscription(WorkpieceState, '/a2/workpiece', lambda msg: setattr(self, 'piece', msg), 10)
-        self.services = {name: self.create_client(Trigger, '/a2/task/'+name) for name in ('start', 'cancel', 'reset')}
+        self.task_clients = {name: self.create_client(Trigger, '/a2/task/'+name) for name in ('start', 'cancel', 'reset')}
 
     def status_cb(self, msg):
         self.status = msg
@@ -37,7 +37,7 @@ class Probe(Node):
         raise AssertionError(f'Condition timed out; latest task state: {state}')
 
     def call(self, name):
-        client = self.services[name]
+        client = self.task_clients[name]
         if not client.wait_for_service(timeout_sec=5.0):
             raise AssertionError(f'Service unavailable: {name}')
         future = client.call_async(Trigger.Request())
