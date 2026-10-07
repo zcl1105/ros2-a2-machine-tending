@@ -1,7 +1,21 @@
 name: ROS 2 Humble validation
 on:
   push:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'scripts/build.sh'
+      - 'scripts/integration.sh'
+      - 'scripts/integration.py'
+      - '.github/workflows/ros2.yml'
   pull_request:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'scripts/build.sh'
+      - 'scripts/integration.sh'
+      - 'scripts/integration.py'
+      - '.github/workflows/ros2.yml'
   workflow_dispatch:
 jobs:
   course-demo:

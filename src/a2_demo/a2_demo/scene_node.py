@@ -66,6 +66,11 @@ class SceneNode(Node):
         msg.pose.orientation.w = 1.0
         msg.pose.position.x, msg.pose.position.y, msg.pose.position.z = map(float, xyz)
         msg.scale.x, msg.scale.y, msg.scale.z = map(float, scale)
+        # In Humble, TEXT_VIEW_FACING uses scale.x as explicit space width.
+        # Its default is calculated before character height is updated, so a
+        # zero value can leave spaces enormous and push the HUD off screen.
+        if kind == Marker.TEXT_VIEW_FACING:
+            msg.scale.x = float(scale[2])*0.55
         msg.color.r, msg.color.g, msg.color.b, msg.color.a = map(float, color)
         msg.text = text
         return msg
@@ -85,7 +90,7 @@ class SceneNode(Node):
             self.marker(6, Marker.CYLINDER, (0.60, 0.42, 0.73), (0.045, 0.045, 0.09), lamp),
             self.marker(7, Marker.TEXT_VIEW_FACING, (0.42, -0.41, 0.34), (0.0, 0.0, 0.034), WHITE, 'MATERIAL TRAY'),
             self.marker(8, Marker.TEXT_VIEW_FACING, (0.49, 0.35, 0.81), (0.0, 0.0, 0.034), lamp, 'MACHINE | '+machine),
-            self.marker(9, Marker.TEXT_VIEW_FACING, (0.25, -0.55, 1.17), (0.0, 0.0, 0.050), state_color, 'A2  MACHINE TENDING'),
+            self.marker(9, Marker.TEXT_VIEW_FACING, (0.25, -0.55, 1.40), (0.0, 0.0, 0.050), state_color, 'A2 MACHINE TENDING'),
         ]
         if self.piece and self.piece.location == 'GRIPPER' and self.arm:
             xyz = (self.arm.tcp.x, self.arm.tcp.y, self.arm.tcp.z-0.035)
@@ -100,7 +105,7 @@ class SceneNode(Node):
         grip = 'CLOSED' if self.arm and self.arm.gripper_closed else 'OPEN'
         piece_location = self.piece.location if self.piece else 'TRAY'
         hud = f'{phase}\n{detail}\nTime {elapsed:05.1f}s  |  Completed {completed}/1\nGripper {grip}  |  Part {piece_location}\nPart: '+('PROCESSED' if processed else 'RAW')
-        items.append(self.marker(11, Marker.TEXT_VIEW_FACING, (0.25, -0.55, 0.95), (0.0, 0.0, 0.033), WHITE, hud))
+        items.append(self.marker(11, Marker.TEXT_VIEW_FACING, (0.25, -0.55, 1.18), (0.0, 0.0, 0.033), WHITE, hud))
         progress = self.task.progress if self.task else 0.0
         items.append(self.marker(12, Marker.CUBE, (0.25, -0.55, 0.77), (0.66, 0.012, 0.018), NAVY))
         width = max(0.001, 0.66*progress)

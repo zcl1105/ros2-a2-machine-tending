@@ -13,6 +13,7 @@ def generate_launch_description():
     share = Path(get_package_share_directory('a2_demo'))
     arguments = [
         DeclareLaunchArgument('rviz', default_value='true'),
+        DeclareLaunchArgument('rviz_config', default_value=str(share/'rviz/demo.rviz')),
         DeclareLaunchArgument('motion_seconds', default_value='1.4'),
         DeclareLaunchArgument('process_seconds', default_value='5.0'),
         DeclareLaunchArgument('busy_seconds', default_value='0.0'),
@@ -37,6 +38,6 @@ def generate_launch_description():
             'process_timeout': value('process_timeout', float),
             'output_dir': value('output_dir', str)}]),
         Node(package='a2_demo', executable='scene_view', output='screen'),
-        Node(package='rviz2', executable='rviz2', arguments=['-d', str(share/'rviz/demo.rviz')],
+        Node(package='rviz2', executable='rviz2', arguments=['-d', LaunchConfiguration('rviz_config')],
              condition=IfCondition(LaunchConfiguration('rviz'))),
     ])

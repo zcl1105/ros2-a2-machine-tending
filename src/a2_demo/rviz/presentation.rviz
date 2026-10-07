@@ -1,0 +1,54 @@
+Panels: []
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 0.1
+      Plane Cell Count: 20
+      Color: 45; 59; 74
+      Alpha: 0.3
+    - Class: rviz_default_plugins/RobotModel
+      Name: SCARA Robot
+      Enabled: true
+      Alpha: 1
+      Description Source: Topic
+      Description Topic:
+        Value: /robot_description
+        Durability Policy: Transient Local
+        Reliability Policy: Reliable
+        History Policy: Keep Last
+        Depth: 1
+      Visual Enabled: true
+      Collision Enabled: false
+    - Class: rviz_default_plugins/MarkerArray
+      Name: A2 Scene and HUD
+      Enabled: true
+      Topic:
+        Value: /a2/scene
+        Durability Policy: Volatile
+        Reliability Policy: Reliable
+        History Policy: Keep Last
+        Depth: 10
+  Global Options:
+    Fixed Frame: world
+    Background Color: 17; 24; 34
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 1.95
+      Pitch: 0.45
+      Yaw: -0.85
+      Focal Point: {X: 0.25, Y: -0.04, Z: 0.66}
+      Near Clip Distance: 0.01
+      Name: Presentation
+Window Geometry:
+  Hide Left Dock: true
+  Hide Right Dock: true
+  Width: 1440
+  Height: 900

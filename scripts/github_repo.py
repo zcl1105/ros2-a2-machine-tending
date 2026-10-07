@@ -1,5 +1,6 @@
 """Private GitHub publication and compact CI status; never prints credentials."""
 import argparse
+import base64
 import json
 import os
 from pathlib import Path
@@ -13,7 +14,7 @@ import urllib.request
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def git(*arguments, capture=False, input_text=None):
+def git(*arguments, capture=False, input_text=None, auth_token=None):
     executable = shutil.which('git')
     if not executable:
         raise RuntimeError('Git is unavailable')
@@ -23,6 +24,12 @@ def git(*arguments, capture=False, input_text=None):
     for kind, value in urllib.request.getproxies().items():
         if kind in ('http', 'https', 'all'):
             environment.setdefault(kind.upper()+'_PROXY', value)
+    if auth_token:
+        index = int(environment.get('GIT_CONFIG_COUNT', '0'))
+        environment['GIT_CONFIG_COUNT'] = str(index+1)
+        environment[f'GIT_CONFIG_KEY_{index}'] = 'http.https://github.com/.extraheader'
+        encoded = base64.b64encode(('x-access-token:'+auth_token).encode()).decode()
+        environment[f'GIT_CONFIG_VALUE_{index}'] = 'Authorization: Basic '+encoded
     return subprocess.run([executable, *arguments], cwd=ROOT, input=input_text,
                           text=True, capture_output=capture, check=True, env=environment)
 
@@ -94,7 +101,7 @@ def main():
         changed = git('diff', '--cached', '--name-only', capture=True).stdout.strip()
         if changed:
             git('commit', '-m', options.commit_message)
-        git('push', '-u', 'origin', 'main')
+        git('push', '-u', 'origin', 'main', auth_token=token)
         print('Published repository: '+repository['html_url'], flush=True)
     if repository:
         print('Repository: '+repository['html_url'], flush=True)

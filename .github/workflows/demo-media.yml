@@ -11,7 +11,7 @@ jobs:
       - name: Install ROS and video dependencies
         run: |
           apt-get update
-          DEBIAN_FRONTEND=noninteractive apt-get install -y python3-colcon-common-extensions ros-humble-rviz2 ros-humble-robot-state-publisher xvfb xauth openbox wmctrl imagemagick ffmpeg fonts-noto-cjk libgl1-mesa-dri
+          DEBIAN_FRONTEND=noninteractive apt-get install -y python3-colcon-common-extensions ros-humble-rviz2 ros-humble-robot-state-publisher xvfb xauth openbox wmctrl imagemagick ffmpeg fonts-noto-cjk libgl1-mesa-dri tesseract-ocr
       - name: Build
         shell: bash
         run: bash scripts/build.sh

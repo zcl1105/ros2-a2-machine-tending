@@ -16,8 +16,13 @@ LABELS = {'PICK_LIFT': 'pick', 'WAIT_PROCESS': 'processing', 'UNLOAD_LIFT': 'unl
           'COMPLETE': 'complete', 'FAILED': 'failed'}
 
 
-def screenshot(name):
+def screenshot(name, expected=None):
     subprocess.run(['import', '-window', 'root', str(OUT/(name+'.png'))], check=True, timeout=15)
+    if expected:
+        recognized = subprocess.check_output(
+            ['tesseract', str(OUT/(name+'.png')), 'stdout', '--psm', '11'],
+            text=True, stderr=subprocess.DEVNULL)
+        assert expected in recognized.upper(), f'Unreadable {expected} HUD: {recognized}'
 
 
 def hold(probe, seconds):
@@ -31,7 +36,8 @@ def record(scenario, parameters):
     directory.mkdir(parents=True, exist_ok=True)
     with (directory/'launch.log').open('w', encoding='utf-8') as log:
         launch = subprocess.Popen(
-            ['ros2', 'launch', 'a2_demo', 'demo.launch.py', f'output_dir:={directory}', *parameters],
+            ['ros2', 'launch', 'a2_demo', 'demo.launch.py', f'output_dir:={directory}',
+             f'rviz_config:={ROOT}/src/a2_demo/rviz/presentation.rviz', *parameters],
             stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
         probe = Probe()
         recorder = None
@@ -44,7 +50,7 @@ def record(scenario, parameters):
                 raise RuntimeError('ROS launch stopped unexpectedly')
             subprocess.run(['wmctrl', '-r', 'RViz', '-b', 'add,maximized_vert,maximized_horz'], check=True)
             hold(probe, 2)
-            screenshot(scenario+'-initial')
+            screenshot(scenario+'-initial', 'IDLE')
             raw = directory/'raw.mp4'
             with (directory/'ffmpeg.log').open('w', encoding='utf-8') as encoding_log:
                 recorder = subprocess.Popen(
@@ -72,7 +78,7 @@ def record(scenario, parameters):
                         last_phase = phase
                     if phase in LABELS and phase not in snapshots:
                         hold(probe, 0.3)
-                        screenshot(scenario+'-'+LABELS[phase])
+                        screenshot(scenario+'-'+LABELS[phase], phase if phase in ('COMPLETE', 'FAILED') else None)
                         snapshots.add(phase)
                     if phase in ('COMPLETE', 'FAILED', 'CANCELED'):
                         break
@@ -89,7 +95,7 @@ def record(scenario, parameters):
                     probe.until(lambda: probe.status.phase == 'IDLE', 5)
                     reset_at = time.monotonic()-begin
                     hold(probe, 8)
-                    screenshot('timeout-reset')
+                    screenshot('timeout-reset', 'IDLE')
                 recorder.communicate(input=b'q\n', timeout=30)
                 assert recorder.returncode == 0, 'Screen recorder failed'
                 recorder = None
