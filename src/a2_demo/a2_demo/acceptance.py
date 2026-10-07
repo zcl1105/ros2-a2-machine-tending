@@ -8,6 +8,7 @@ import time
 import rclpy
 from rclpy.node import Node
 from std_srvs.srv import Trigger
+from visualization_msgs.msg import MarkerArray
 from a2_interfaces.msg import ArmState, MachineState, TaskStatus, WorkpieceState
 from .core import HOME
 
@@ -17,15 +18,21 @@ class Probe(Node):
         super().__init__('a2_acceptance')
         self.status = self.arm = self.machine = self.piece = None
         self.phases = set()
+        self.scene_time = 0.0
         self.create_subscription(TaskStatus, '/a2/task/status', self.status_cb, 10)
         self.create_subscription(ArmState, '/a2/arm/state', lambda msg: setattr(self, 'arm', msg), 10)
         self.create_subscription(MachineState, '/a2/machine/state', lambda msg: setattr(self, 'machine', msg), 10)
         self.create_subscription(WorkpieceState, '/a2/workpiece', lambda msg: setattr(self, 'piece', msg), 10)
+        self.create_subscription(MarkerArray, '/a2/scene', self.scene_cb, 10)
         self.task_clients = {name: self.create_client(Trigger, '/a2/task/'+name) for name in ('start', 'cancel', 'reset')}
 
     def status_cb(self, msg):
         self.status = msg
         self.phases.add(msg.phase)
+
+    def scene_cb(self, msg):
+        if msg.markers:
+            self.scene_time = time.monotonic()
 
     def until(self, condition, timeout=60.0):
         deadline = time.monotonic()+timeout
@@ -46,9 +53,15 @@ class Probe(Node):
         return response
 
     def run(self, scenario, output):
-        self.until(lambda: self.status and self.arm and self.machine and self.piece, 15.0)
-        response = self.call('start')
-        assert response.success, response.message
+        self.until(lambda: self.status and self.arm and self.machine and self.piece and self.scene_time, 15.0)
+        deadline = time.monotonic()+10.0
+        while True:
+            response = self.call('start')
+            if response.success:
+                break
+            assert 'not ready' in response.message or 'stale' in response.message, response.message
+            assert time.monotonic() < deadline, response.message
+            rclpy.spin_once(self, timeout_sec=0.1)
         self.until(lambda: self.status.active, 5.0)
         run_id = self.status.run_id
         assert not self.call('start').success, 'Duplicate start must be rejected'
@@ -60,6 +73,7 @@ class Probe(Node):
         expected = {'normal': 'COMPLETE', 'busy': 'COMPLETE', 'timeout': 'FAILED',
                     'station_timeout': 'FAILED', 'cancel': 'CANCELED'}[scenario]
         assert self.status.phase == expected, (self.status.phase, self.status.error)
+        assert time.monotonic()-self.scene_time < 1.0, 'Scene node stopped publishing'
         evidence = json.loads((output/f'{run_id}.json').read_text(encoding='utf-8'))
         assert evidence['phase'] == expected
         assert (output/f'{run_id}.csv').stat().st_size > 100

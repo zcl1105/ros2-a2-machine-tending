@@ -1,0 +1,26 @@
+name: Record complete RViz demo
+on:
+  workflow_dispatch:
+jobs:
+  video:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    container: ros:humble-ros-base
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ROS and video dependencies
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y python3-colcon-common-extensions ros-humble-rviz2 ros-humble-robot-state-publisher xvfb xauth openbox wmctrl imagemagick ffmpeg fonts-noto-cjk libgl1-mesa-dri
+      - name: Build
+        shell: bash
+        run: bash scripts/build.sh
+      - name: Record actual ROS execution
+        shell: bash
+        run: bash scripts/capture_video.sh
+      - name: Preserve video and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-complete-video
+          path: results/media/

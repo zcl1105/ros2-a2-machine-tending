@@ -64,9 +64,9 @@ class SceneNode(Node):
         msg.type = kind
         msg.action = Marker.ADD
         msg.pose.orientation.w = 1.0
-        msg.pose.position.x, msg.pose.position.y, msg.pose.position.z = xyz
-        msg.scale.x, msg.scale.y, msg.scale.z = scale
-        msg.color.r, msg.color.g, msg.color.b, msg.color.a = color
+        msg.pose.position.x, msg.pose.position.y, msg.pose.position.z = map(float, xyz)
+        msg.scale.x, msg.scale.y, msg.scale.z = map(float, scale)
+        msg.color.r, msg.color.g, msg.color.b, msg.color.a = map(float, color)
         msg.text = text
         return msg
 

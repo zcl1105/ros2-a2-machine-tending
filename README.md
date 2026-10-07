@@ -24,8 +24,8 @@ sudo apt update
 sudo apt install -y git python3-colcon-common-extensions \
   ros-humble-rviz2 ros-humble-robot-state-publisher
 
-# 将下面地址替换为实际 GitHub 仓库地址；以发布后的地址为准。
-git clone https://github.com/<你的用户名>/ros2-a2-machine-tending.git a2_ws
+# 私有仓库，先在当前电脑完成 GitHub 认证。
+git clone https://github.com/zcl1105/ros2-a2-machine-tending.git a2_ws
 cd a2_ws
 bash scripts/build.sh
 source install/setup.bash
