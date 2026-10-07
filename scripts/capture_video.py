@@ -19,8 +19,12 @@ LABELS = {'PICK_LIFT': 'pick', 'WAIT_PROCESS': 'processing', 'UNLOAD_LIFT': 'unl
 def screenshot(name, expected=None):
     subprocess.run(['import', '-window', 'root', str(OUT/(name+'.png'))], check=True, timeout=15)
     if expected:
+        crop = OUT/(name+'-hud.png')
+        # Read the HUD block, avoiding the 3D robot and toolbar confusing OCR.
+        subprocess.run(['convert', str(OUT/(name+'.png')), '-crop', '1100x170+100+175',
+                        '-colorspace', 'Gray', '-negate', '-resize', '200%', str(crop)], check=True)
         recognized = subprocess.check_output(
-            ['tesseract', str(OUT/(name+'.png')), 'stdout', '--psm', '11'],
+            ['tesseract', str(crop), 'stdout', '--psm', '6'],
             text=True, stderr=subprocess.DEVNULL)
         assert expected in recognized.upper(), f'Unreadable {expected} HUD: {recognized}'
 
