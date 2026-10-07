@@ -17,9 +17,14 @@ def git(*arguments, capture=False, input_text=None):
     executable = shutil.which('git')
     if not executable:
         raise RuntimeError('Git is unavailable')
+    environment = dict(os.environ, GIT_TERMINAL_PROMPT='0', GCM_INTERACTIVE='Never')
+    # urllib honors Windows system proxies; Git/libcurl needs equivalent process
+    # variables. Do not persist proxy settings or credentials in repository config.
+    for kind, value in urllib.request.getproxies().items():
+        if kind in ('http', 'https', 'all'):
+            environment.setdefault(kind.upper()+'_PROXY', value)
     return subprocess.run([executable, *arguments], cwd=ROOT, input=input_text,
-                          text=True, capture_output=capture, check=True,
-                          env=dict(os.environ, GIT_TERMINAL_PROMPT='0', GCM_INTERACTIVE='Never'))
+                          text=True, capture_output=capture, check=True, env=environment)
 
 
 def credential():
