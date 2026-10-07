@@ -1,0 +1,184 @@
+{
+  "duration_s": 128.65,
+  "normal": {
+    "scenario": "normal",
+    "raw": "/__w/ros2-a2-machine-tending/ros2-a2-machine-tending/results/media/normal/raw.mp4",
+    "start_s": 22.030841041000002,
+    "terminal_s": 60.17685966100001,
+    "reset_s": null,
+    "evidence": {
+      "run_id": "20261007-035003-edd8d8ff",
+      "phase": "COMPLETE",
+      "success": true,
+      "completed": 1,
+      "elapsed_s": 36.325,
+      "workpiece_location": "TRAY",
+      "processed": true,
+      "error": "",
+      "backend": "SCARA joint interpolation; RViz kinematic simulation"
+    },
+    "observed_phases": [
+      {
+        "video_s": 22.05,
+        "phase": "WAIT_READY"
+      },
+      {
+        "video_s": 22.06,
+        "phase": "APPROACH_TRAY"
+      },
+      {
+        "video_s": 23.96,
+        "phase": "PICK_DESCEND"
+      },
+      {
+        "video_s": 25.86,
+        "phase": "PICK_GRIP"
+      },
+      {
+        "video_s": 26.46,
+        "phase": "PICK_LIFT"
+      },
+      {
+        "video_s": 28.36,
+        "phase": "TRANSFER_LOAD"
+      },
+      {
+        "video_s": 30.26,
+        "phase": "LOAD_DESCEND"
+      },
+      {
+        "video_s": 32.21,
+        "phase": "LOAD_RELEASE"
+      },
+      {
+        "video_s": 32.81,
+        "phase": "LOAD_RETREAT"
+      },
+      {
+        "video_s": 34.71,
+        "phase": "CLEAR_MACHINE"
+      },
+      {
+        "video_s": 36.61,
+        "phase": "START_MACHINE"
+      },
+      {
+        "video_s": 36.71,
+        "phase": "WAIT_PROCESS"
+      },
+      {
+        "video_s": 43.71,
+        "phase": "APPROACH_MACHINE"
+      },
+      {
+        "video_s": 45.61,
+        "phase": "UNLOAD_DESCEND"
+      },
+      {
+        "video_s": 47.51,
+        "phase": "UNLOAD_GRIP"
+      },
+      {
+        "video_s": 48.11,
+        "phase": "UNLOAD_LIFT"
+      },
+      {
+        "video_s": 50.01,
+        "phase": "TRANSFER_RETURN"
+      },
+      {
+        "video_s": 51.96,
+        "phase": "RETURN_DESCEND"
+      },
+      {
+        "video_s": 53.86,
+        "phase": "RETURN_RELEASE"
+      },
+      {
+        "video_s": 54.46,
+        "phase": "RETURN_LIFT"
+      },
+      {
+        "video_s": 56.41,
+        "phase": "RETURN_HOME"
+      },
+      {
+        "video_s": 58.36,
+        "phase": "COMPLETE"
+      }
+    ]
+  },
+  "timeout": {
+    "scenario": "timeout",
+    "raw": "/__w/ros2-a2-machine-tending/ros2-a2-machine-tending/results/media/timeout/raw.mp4",
+    "start_s": 8.003423425000022,
+    "terminal_s": 27.212355438000003,
+    "reset_s": 35.27057818700001,
+    "evidence": {
+      "run_id": "20261007-035112-5226b752",
+      "phase": "FAILED",
+      "success": false,
+      "completed": 0,
+      "elapsed_s": 17.116,
+      "workpiece_location": "MACHINE",
+      "processed": false,
+      "error": "WAIT_PROCESS timeout after 8.0s",
+      "backend": "SCARA joint interpolation; RViz kinematic simulation"
+    },
+    "observed_phases": [
+      {
+        "video_s": 8.02,
+        "phase": "WAIT_READY"
+      },
+      {
+        "video_s": 8.02,
+        "phase": "APPROACH_TRAY"
+      },
+      {
+        "video_s": 9.12,
+        "phase": "PICK_DESCEND"
+      },
+      {
+        "video_s": 10.22,
+        "phase": "PICK_GRIP"
+      },
+      {
+        "video_s": 10.83,
+        "phase": "PICK_LIFT"
+      },
+      {
+        "video_s": 11.92,
+        "phase": "TRANSFER_LOAD"
+      },
+      {
+        "video_s": 13.08,
+        "phase": "LOAD_DESCEND"
+      },
+      {
+        "video_s": 14.17,
+        "phase": "LOAD_RELEASE"
+      },
+      {
+        "video_s": 14.77,
+        "phase": "LOAD_RETREAT"
+      },
+      {
+        "video_s": 15.87,
+        "phase": "CLEAR_MACHINE"
+      },
+      {
+        "video_s": 16.97,
+        "phase": "START_MACHINE"
+      },
+      {
+        "video_s": 17.08,
+        "phase": "WAIT_PROCESS"
+      },
+      {
+        "video_s": 25.12,
+        "phase": "FAILED"
+      }
+    ]
+  },
+  "description": "Actual ROS 2 Humble RViz capture on Ubuntu Xvfb, Chinese captions, real time 1x"
+}
